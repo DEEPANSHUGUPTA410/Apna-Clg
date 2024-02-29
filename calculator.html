@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Calculator</title>
+    <style>
+        body {
+            text-align:left;
+        }
+        input[type="text"] {
+            margin: 5px;
+            width: 200px;
+        }
+        input[type="submit"], button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2> Calculator</h2>
+
+<form id="calculatorForm">
+    <input type="text" id="num1" placeholder="Num 1">
+    <br>
+    <input type="text" id="num2" placeholder="Num 2">
+    <br>
+    <button type="button" onclick="calculate('add')">Add</button>
+    <button type="button" onclick="calculate('subtract')">Subtract</button>
+    <button type="button" onclick="calculate('multiply')">Multiply</button>
+    <button type="button" onclick="calculate('divide')">Divide</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    function calculate(operation) {
+        var num1 = parseFloat(document.getElementById('num1').value);
+        var num2 = parseFloat(document.getElementById('num2').value);
+        var result;
+        switch(operation) {
+            case 'add':
+                result = num1 + num2;
+                break;
+            case 'subtract':
+                result = num1 - num2;
+                break;
+            case 'multiply':
+                result = num1 * num2;
+                break;
+            case 'divide':
+                if (num2 !== 0) {
+                    result = num1 / num2;
+                } else {
+                    result = "Cannot divide by zero";
+                }
+                break;
+        }
+        document.getElementById('result').innerText = 'Result: ' + result;
+    }
+</script>
+
+</body>
+</html>

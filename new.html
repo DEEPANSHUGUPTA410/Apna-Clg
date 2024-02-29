@@ -1,0 +1,206 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="form.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+</head>
+<body style= "background-color: beige;text-align: center;">
+
+<div id="loginForm" style="background-color: rgb(26, 15, 1);">
+    <h2>Login Page</h2>
+    <input type="text" id="username" placeholder="Username" style="background-color:burlywood;font-size:larger"><br><br>
+    <input type="password" id="password" placeholder="password" style="background-color:burlywood;font-size:larger"><br><br>
+    <button onclick="login()" style="background-color: rgba(150, 180, 77,0.7);">Login</button>
+</div>
+
+<div id="quiz" style="display: none;">
+    <h2>Quiz</h2>
+    <p id="question"></p>
+    <div id="options"></div>
+    <p>Score: <span id="score">0</span></p>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+let currentUser = null;
+let currentScore = 0;
+let questionIndex = 0;
+let streakCount = 0;
+
+const users = [];
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+function login() {
+
+    alert(username.value);
+    alert(password.value);
+    username.value=" ";
+    password.value=" ";}
+    fetch('/api/login', {
+
+        method: 'POST',
+        
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        
+        body: JSON.stringify({ username, password })
+    })
+        .then(response => {
+        if (!response.ok) {
+        
+        throw new Error('Authentication failed');
+    }
+    return response.json();
+})
+.then(data =>{
+    showMessage('Login successful');
+})
+.catch(error=>{
+    showMessage('Authentication failed')
+})
+
+ 
+
+function logout() {
+    currentUser = null;
+    currentScore = 0;
+    questionIndex = 0;
+    streakCount = 0;
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('quiz').style.display = 'none';
+}
+
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const optionsElement = document.getElementById('options');
+    if (questionIndex < questions.length) {
+        const question = questions[questionIndex];
+        questionElement.textContent = question.text;
+        optionsElement.innerHTML = '';
+        question.options.forEach(option => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.onclick = () => answer(option === question.answer);
+            optionsElement.appendChild(button);
+        });
+    } else {
+        alert('Quiz done! Your score is: ' + currentScore);
+        questionIndex = 0;
+        currentScore = 0;
+        streakCount = 0;
+        document.getElementById('score').textContent = currentScore;
+        loadQuestion();
+    }
+}
+
+function answer(isCorrect) {
+    if (isCorrect) {
+        currentScore++;
+        streakCount++;
+        if (streakCount === 3) {
+            alert("Great!");}21
+        if (streakCount === 4) {
+            alert("Good Job!");
+        } else if (streakCount === 5) {
+            alert("Excellent!");
+        }
+    } else {
+        streakCount = 0;
+    }
+    document.getElementById('score').textContent = currentScore;
+    questionIndex++;
+    loadQuestion();
+}
+
+const questions = [
+    {
+        text: "How many days are there in a year? ?",
+        options: ["900", "124", "366", "365"],
+        answer: "365"
+    },
+    {
+        text: "What is 99*11?",
+        options: ["1001", "1098", "1089", "999"],
+        answer: "1089"
+    },
+    {
+        text: "Rainbow consist of how many colours?",
+        options: ["2", "12", "8", "7"],
+        answer: "7"
+    }, 
+    {
+        text: "Name the National bird of India?",
+        options: ["Crow", "Parrot", "Peacock", "Eagle"],
+        answer: "Peacock"
+    },
+    {
+        text: "What is the capital of India?",
+        options: ["Mumbai", "New Delhi", "Delhi", "Punjab"],
+        answer: "New Delhi"
+    }
+];
+</script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="logingorm">
+    <h1>login form</h1>
+    <label for="">Usernsme</label>
+    <input type="text" id="username" required()>
+    <label for="">Password</label>
+    <input type="password" id="password" required()>
+    <button type="submit" onclick="login()">Login</button>
+</div>
+<script >
+    if(localStorage.getItem('token')&& localStorage.getItem('token')!==undefined)
+    {
+        document.getElementById('loginform').style.visibility="none";
+    }
+    
+async function login(){
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    alert(`username : ${username}  password : ${password}`);
+    await fetch('http://localhost:3000/api/login', {
+        method :"POST",
+        headers :{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username, password})
+    })
+    .then(response =>{
+        if(!response.ok){
+            throw new error('Authentication failed');
+        }
+        return response.json();
+    })
+    .then(data=>{
+        alert('login successful');
+        if(!localStorage.getItem('token')||localStorage.getItem('token')== undefined){
+            localStorage.setItem('token',data.id);
+            localStorage.setItem('name',data.name);
+        }
+        // redirect user to perfom actions 
+
+    })
+    .catch(error=>{
+        alert('Authentication failed');
+    });
+
+}
+
+</script>
+</body>
+</html>
